@@ -6,4 +6,6 @@ public interface ClassRepository {
     void save(Class aClass);
 
     Boolean exists(String id);
+
+    void delete(String id);
 }

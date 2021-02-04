@@ -24,4 +24,9 @@ public class RAMClassRepository implements ClassRepository {
     public Boolean exists(String id) {
         return db.stream().anyMatch(aClass -> aClass.getId().equals(id));
     }
+
+    @Override
+    public void delete(String id) {
+        db.removeIf(aClass -> aClass.getId().equals(id));
+    }
 }

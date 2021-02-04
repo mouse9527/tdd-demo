@@ -50,7 +50,8 @@ class AddedStudentIntegrationTest {
         assertThat(student.getGender()).isEqualTo("male");
         assertThat(student.getStudentId()).isEqualTo("10101");
 
-        // clean(消除step2对系统的影响，防止对其他测试产生影响。这一步不一定有)
+        // clean(消除当前测试对系统的影响，防止对其他测试产生影响。这一步不一定有)
         studentRepository.delete(student.getId());
+        classRepository.delete("101");
     }
 }

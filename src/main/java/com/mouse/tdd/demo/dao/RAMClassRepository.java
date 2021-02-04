@@ -19,4 +19,9 @@ public class RAMClassRepository implements ClassRepository {
     public void save(Class aClass) {
         db.add(aClass);
     }
+
+    @Override
+    public Boolean exists(String id) {
+        return null;
+    }
 }

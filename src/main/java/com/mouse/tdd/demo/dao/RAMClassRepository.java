@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Predicate;
 
 @Component
 public class RAMClassRepository implements ClassRepository {
@@ -22,11 +23,15 @@ public class RAMClassRepository implements ClassRepository {
 
     @Override
     public Boolean exists(String id) {
-        return db.stream().anyMatch(aClass -> aClass.getId().equals(id));
+        return db.stream().anyMatch(isSameClass(id));
     }
 
     @Override
     public void delete(String id) {
-        db.removeIf(aClass -> aClass.getId().equals(id));
+        db.removeIf(isSameClass(id));
+    }
+
+    private Predicate<Class> isSameClass(String id) {
+        return aClass -> aClass.getId().equals(id);
     }
 }

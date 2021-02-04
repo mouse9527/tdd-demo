@@ -19,6 +19,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class AddedStudentIntegrationTest {
+    public static final String CLASS_ID = "101";
+    public static final String STUDENT_NAME = "张三";
+    public static final String GENDER = "male";
+    public static final String STUDENT_ID = "10101";
     @Resource
     private TestRestTemplate testRestTemplate;
     @Resource
@@ -29,12 +33,12 @@ class AddedStudentIntegrationTest {
     @Test
     void should_be_able_to_add_student() {
         // step1: 准备数据 Given
-        classRepository.save(new Class("101", "一年级一班"));
+        classRepository.save(new Class(CLASS_ID, "一年级一班"));
         Map<String, Object> body = new HashMap<>();
-        body.put("classId", "101");
-        body.put("name", "张三");
-        body.put("gender", "male");
-        body.put("studentId", "10101");
+        body.put("classId", CLASS_ID);
+        body.put("name", STUDENT_NAME);
+        body.put("gender", GENDER);
+        body.put("studentId", STUDENT_ID);
 
         // step2: 触发执行(http) When
         ResponseEntity<String> response = testRestTemplate.postForEntity("/students", body, String.class);
@@ -45,13 +49,13 @@ class AddedStudentIntegrationTest {
         assertThat(students).hasSize(1);
         Student student = students.get(0);
         assertThat(student.getId()).isNotEmpty();
-        assertThat(student.getClassId()).isEqualTo("101");
-        assertThat(student.getName()).isEqualTo("张三");
-        assertThat(student.getGender()).isEqualTo("male");
-        assertThat(student.getStudentId()).isEqualTo("10101");
+        assertThat(student.getClassId()).isEqualTo(CLASS_ID);
+        assertThat(student.getName()).isEqualTo(STUDENT_NAME);
+        assertThat(student.getGender()).isEqualTo(GENDER);
+        assertThat(student.getStudentId()).isEqualTo(STUDENT_ID);
 
         // clean(消除当前测试对系统的影响，防止对其他测试产生影响。这一步不一定有)
         studentRepository.delete(student.getId());
-        classRepository.delete("101");
+        classRepository.delete(CLASS_ID);
     }
 }

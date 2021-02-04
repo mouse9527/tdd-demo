@@ -18,7 +18,7 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class AppTest {
+class AddedStudentIntegrationTest {
     @Resource
     private TestRestTemplate testRestTemplate;
     @Resource
@@ -38,9 +38,7 @@ class AppTest {
         ResponseEntity<String> response = testRestTemplate.postForEntity("/students", body, String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-
         List<Student> students = studentRepository.findAll();
-
         assertThat(students).hasSize(1);
         Student student = students.get(0);
         assertThat(student.getId()).isNotEmpty();
@@ -48,5 +46,7 @@ class AppTest {
         assertThat(student.getName()).isEqualTo("张三");
         assertThat(student.getGender()).isEqualTo("male");
         assertThat(student.getStudentId()).isEqualTo("10101");
+
+        studentRepository.delete(student.getId());
     }
 }
